@@ -2,17 +2,17 @@ DOCKER_IMAGE    = ghcr.io/jessun/rust/rust-compiler
 override DOCKER = $(shell which docker)
 CTN_NAME        = rust-compiler
 
-build_docker:
+build:
 	docker build -t $(DOCKER_IMAGE) .
 
-push_docker:
+push:
 	docker push $(DOCKER_IMAGE)
 
-run_docker: 
+run: 
 	$(DOCKER) run -d --entrypoint /sbin/init --privileged --name ${CTN_NAME} -v $(shell pwd)/:/app --rm -w /app $(DOCKER_IMAGE)
 
-stop_docker:
+stop:
 	$(DOCKER) stop ${CTN_NAME}
 
-rm_docker:
+rm:
 	$(DOCKER) rm ${CTN_NAME}
