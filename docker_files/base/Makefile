@@ -1,6 +1,6 @@
-DOCKER_IMAGE    = ghcr.io/jessun/centos/centos-compiler
+DOCKER_IMAGE    = ghcr.io/jessun/alpine-glibc-builder-and-runner
 override DOCKER = $(shell which docker)
-CTN_NAME        = centos-compiler
+CTN_NAME        = alpine-glibc-builder-and-runner
 
 build:
 	docker build -t $(DOCKER_IMAGE) .
