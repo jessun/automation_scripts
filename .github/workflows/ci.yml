@@ -3,7 +3,7 @@ name: ci
 on:
   push:
     branches:
-      - 'master'
+      - 'dev'
 
 jobs:
   docker:
@@ -23,7 +23,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.MY_TOKEN }}
+          password: ${{ secrets.MY_GITHUB_TOKEN }}
       -
         name: Build and push
         id: docker_build
@@ -31,10 +31,10 @@ jobs:
         with:
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          file: ./docker_files/rust_compiler/Dockerfile
-          path: docker_files/rust_compiler
+          file: ./docker_files/base/Dockerfile
+          path: docker_files/base/Dockerfile
           tags: |
-            ghcr.io/jessun/rust_compiler:latest
+            ghcr.io/jessun/base_alpine_with_glibc:latest
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
