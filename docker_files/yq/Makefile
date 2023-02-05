@@ -1,4 +1,4 @@
-DOCKER_IMAGE    = ghcr.io/jessun/alpine-scspell
+DOCKER_IMAGE    = jessun/scspell
 override DOCKER = $(shell which docker)
 CTN_NAME        = alpine-scspell
 
