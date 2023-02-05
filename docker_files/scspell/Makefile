@@ -1,9 +1,18 @@
-DOCKER_IMAGE    = jessun/scspell
+APP  = swagger
+USER = jessun
+
+# =============================================
+DOCKER_IMAGE    = $(USER)/$(APP)
 override DOCKER = $(shell which docker)
-CTN_NAME        = alpine-scspell
+CTN_NAME        = alpine-$(APP)
+TAG = v0.19.0
 
 build:
-	docker buildx build --platform linux/arm64,linux/amd64 -t $(DOCKER_IMAGE) --push . 
+	docker buildx build --platform linux/arm64,linux/amd64 \
+		-t $(DOCKER_IMAGE):$(TAG) \
+		-t $(DOCKER_IMAGE) \
+		--push \
+		. 
 
 push:
 	docker push $(DOCKER_IMAGE)
