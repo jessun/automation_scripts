@@ -3,7 +3,7 @@ override DOCKER = $(shell which docker)
 CTN_NAME        = alpine-scspell
 
 build:
-	docker buildx build --platform linux/arm64,linux/amd64  -t $(DOCKER_IMAGE) . \
+	docker buildx build --platform linux/arm64,linux/amd64  -t $(DOCKER_IMAGE) --push . 
 
 
 push:
