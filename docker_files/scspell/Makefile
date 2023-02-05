@@ -1,4 +1,4 @@
-APP  = swagger
+APP  = scspell
 USER = jessun
 
 # =============================================
@@ -21,7 +21,7 @@ run:
 	$(DOCKER) run -d --entrypoint /sbin/init --privileged --name ${CTN_NAME} -v $(shell pwd)/:/work --rm -w /work $(DOCKER_IMAGE)
 
 rund:
-	$(DOCKER) run -d --entrypoint /sbin/init --privileged --name ${CTN_NAME} 
+	$(DOCKER) run -d --entrypoint /sbin/init --privileged --name ${CTN_NAME} $(DOCKER_IMAGE)
 
 stop:
 	$(DOCKER) stop ${CTN_NAME}
