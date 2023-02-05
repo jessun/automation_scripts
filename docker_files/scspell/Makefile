@@ -1,9 +1,9 @@
-DOCKER_IMAGE    = ghcr.io/jessun/alpine-scspell
+DOCKER_IMAGE    = jessun/scspell
 override DOCKER = $(shell which docker)
 CTN_NAME        = alpine-scspell
 
 build:
-	docker build .  -t $(DOCKER_IMAGE) \
+	docker buildx build --platform linux/arm64,linux/amd64  -t $(DOCKER_IMAGE) . \
 
 
 push:
