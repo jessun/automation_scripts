@@ -24,3 +24,4 @@ RUN chmod +x ./bootstrap.sh && ./bootstrap.sh
 #     pip install scspell3k
 #
 COPY * /docker-build/
+ENTRYPOINT ["/bin/bash", "/root/.gvm/scripts/gvm"]
