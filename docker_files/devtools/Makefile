@@ -1,6 +1,7 @@
 APP  = devtools
 TAG = latest
 USER = jessun
+TEST =  reg.actiontech.com/actiontech/universe-compiler-go1.17.7-ubuntu-with-docker:temp-ssh-github
 
 # =============================================
 DOCKER_IMAGE    = $(USER)/$(APP)
@@ -33,3 +34,7 @@ stop:
 
 rm:
 	$(DOCKER) rm ${CTN_NAME}
+
+run_test: 
+	$(DOCKER) pull $(TEST)
+	$(DOCKER) run -d --entrypoint /sbin/init --privileged --name golang_test -v $(shell pwd)/:/work --rm -w /work $(TEST)
