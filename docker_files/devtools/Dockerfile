@@ -2,9 +2,8 @@ FROM --platform=$TARGETPLATFORM centos:7 as base
 
 WORKDIR /work
 
-RUN yum install git which  -y
-# RUN curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer > init.sh && \
-#     chmod +x init.sh && ./init.sh
+COPY ./bootstrap.sh /work/bootstrap.sh
+RUN chmod +x ./bootstrap.sh && ./bootstrap.sh
 
 
 # RUN apk add --no-cache python2 
