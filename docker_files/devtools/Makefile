@@ -17,8 +17,6 @@ buildx:
 		--push \
 		. 
 
-rebuildx: rmi buildx run
-
 push:
 	$(DOCKER) push $(DOCKER_IMAGE)
 
@@ -26,6 +24,10 @@ rmi:
 	$(DOCKER) stop ${CTN_NAME} ; $(DOCKER) rmi $(DOCKER_IMAGE)
 
 run: 
+	$(DOCKER) pull $(DOCKER_IMAGE)
+	$(DOCKER) run -d --entrypoint /sbin/init --privileged --name ${CTN_NAME} $(DOCKER_IMAGE)
+
+run_with_pwd: 
 	$(DOCKER) pull $(DOCKER_IMAGE)
 	$(DOCKER) run -d --entrypoint /sbin/init --privileged --name ${CTN_NAME} -v $(shell pwd)/:/work --rm -w /work $(DOCKER_IMAGE)
 
