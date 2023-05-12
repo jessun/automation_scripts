@@ -25,11 +25,7 @@ rmi:
 
 run: 
 	$(DOCKER) pull $(DOCKER_IMAGE)
-	$(DOCKER) run -d --entrypoint /sbin/init --privileged --name ${CTN_NAME} $(DOCKER_IMAGE)
-
-run_with_pwd: 
-	$(DOCKER) pull $(DOCKER_IMAGE)
-	$(DOCKER) run -d --entrypoint /sbin/init --privileged --name ${CTN_NAME} -v $(shell pwd)/:/work --rm -w /work $(DOCKER_IMAGE)
+	$(DOCKER) run -d --entrypoint /sbin/init --platform 'linux/amd64' --privileged --name ${CTN_NAME} -v $(shell pwd)/:/work --rm -w /work $(DOCKER_IMAGE)
 
 stop:
 	$(DOCKER) stop ${CTN_NAME}
