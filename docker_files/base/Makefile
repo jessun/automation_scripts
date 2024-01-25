@@ -1,15 +1,41 @@
-DOCKER_IMAGE    = ghcr.io/jessun/alpine-glibc-builder-and-runner
-override DOCKER = $(shell which docker)
-CTN_NAME        = alpine-glibc-builder-and-runner
+# Base Info
+APP  = alpine-glibc
+TAG = latest
+USER = jessun
 
-build:
-	docker build -t $(DOCKER_IMAGE) .
+DOCKER_IMAGE    = $(USER)/$(APP)
+CTN_NAME        = $(APP)_CTN
+override DOCKER = $(shell which docker)
+
+buildx:
+	docker buildx build --platform linux/amd64 \
+		-t $(DOCKER_IMAGE):$(TAG) \
+		-t $(DOCKER_IMAGE) \
+		--load \
+		. 
+
+# buildx:
+# 	docker buildx build --platform linux/arm64,linux/amd64 \
+# 		-t $(DOCKER_IMAGE):$(TAG) \
+# 		-t $(DOCKER_IMAGE) \
+# 		--build-arg "HTTP_PROXY=http://10.186.16.118:1087" \
+# 		--build-arg "HTTPS_PROXY=http://10.186.16.118:1087" \
+# 		--push \
+# 		. 
 
 push:
-	docker push $(DOCKER_IMAGE)
+	$(DOCKER) push $(DOCKER_IMAGE)
+
+rmi: 
+	$(DOCKER) stop ${CTN_NAME} ; $(DOCKER) rmi $(DOCKER_IMAGE)
+
+pull:
+	$(DOCKER) pull $(DOCKER_IMAGE)
 
 run: 
-	$(DOCKER) run -d --entrypoint /sbin/init --privileged --name ${CTN_NAME} -v $(shell pwd)/:/app --rm -w /app $(DOCKER_IMAGE)
+	$(DOCKER) run --privileged -it -d --platform 'linux/amd64'  --name ${CTN_NAME} -v $(shell pwd)/:/work --rm -w /work $(DOCKER_IMAGE) "/sbin/init"
+
+rerun: stop run
 
 stop:
 	$(DOCKER) stop ${CTN_NAME}
